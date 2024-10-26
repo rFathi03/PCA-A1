@@ -1,6 +1,6 @@
-# # GAN Assingment 1 
-# # Name: Roaa Fathi
-# # ID: 20210140
+# GAN Assingment 1 
+# Name: Roaa Fathi
+# ID: 20210140
 
 import cv2
 import numpy as np
@@ -9,7 +9,7 @@ from sklearn.datasets import fetch_olivetti_faces
 from sklearn.utils import shuffle
 import os
 
-# # ================================ PCA =====================================
+# ================================ PCA =====================================
 
 def standardize(img):
     img_mean = np.mean(img, axis=0)
@@ -73,11 +73,11 @@ def decompress_image(compressed_img, eigenvectors, mean):
     decompressed_image = np.dot(compressed_img, eigenvectors.T) + mean
     return decompressed_image
 
-# # ============================= Main Task ==================================
+# ============================= Main Task ==================================
 
 def run_grayscale():
     # Load the Grayscale Image
-    image = cv2.imread('R:\Senior year\GAN\A1\Repo\PCA-A1\grayscale\lionGS.jpg', cv2.IMREAD_GRAYSCALE)
+    image = cv2.imread('R:\Senior year\GAN\A1\Repo\PCA-A1\grayscale\eagleGS.jpg', cv2.IMREAD_GRAYSCALE)
 
     # Visualize the compressed and decompressed images
     plt.figure(figsize=(10,5))
@@ -88,22 +88,27 @@ def run_grayscale():
 
     decompressed_img= decompress_image(compressed_img, eigen_vectors, mean)
 
+    # Display the shapes
+    original_shape = image.shape
+    compressed_shape = compressed_img.shape
+    decompressed_shape = decompressed_img.shape
+
     # Original image
     plt.subplot(1, 3, 1)
     plt.imshow(image, cmap='gray')
-    plt.title('Original Image')
+    plt.title(f'Original Image\nShape: {original_shape}')
     plt.axis('off')
 
     # Compressed image
     plt.subplot(1, 3, 2)
     plt.imshow(compressed_img, cmap='gray')
-    plt.title('Compressed Image')
+    plt.title(f'Compressed Image\nShape: {compressed_shape}')
     plt.axis('off')
 
     # Decompressed image
     plt.subplot(1, 3, 3)
     plt.imshow(decompressed_img, cmap='gray')
-    plt.title('Decompressed Image')
+    plt.title(f'Decompressed Image\nShape: {decompressed_shape}')
     plt.axis('off')
 
     plt.show()
@@ -132,7 +137,7 @@ def run_RGB():
     
     # Align the number of pc for all channels
     min_pc_num = min(pc_nums)
-    compressed_channels_aligned = handle_shape(*compressed_data, min_pc_num)
+    compressed_channels_aligned = handle_shape(*compressed_data, min_pc_num=min_pc_num)
     
     # Full compression for all channels
     compressed_full = [project_data(channels[i] - means[i], eigenvectors[i], min_pc_num) for i in range(3)]
@@ -146,22 +151,27 @@ def run_RGB():
     # Stack decompressed channels to form the final image
     decompressed_image = np.stack(decompressed_channels, axis=2).astype(np.uint8)
     
+    # Display the shapes
+    original_shape = image.shape
+    compressed_shape = compressed_image.shape
+    decompressed_shape = decompressed_image.shape
+
     # Display images
     plt.figure(figsize=(15, 5))
 
     plt.subplot(1, 3, 1)
     plt.imshow(image)
-    plt.title('Original Image')
+    plt.title(f'Original Image\nShape: {original_shape}')
     plt.axis('off')
 
     plt.subplot(1, 3, 2)
     plt.imshow(compressed_image)
-    plt.title('Compressed Image')
+    plt.title(f'Compressed Image\nShape: {compressed_shape}')
     plt.axis('off')
 
     plt.subplot(1, 3, 3)
     plt.imshow(decompressed_image)
-    plt.title('Decompressed Image')
+    plt.title(f'Decompressed Image\nShape: {decompressed_shape}')
     plt.axis('off')
 
     plt.show()
@@ -183,6 +193,11 @@ def eigen_faces(faces_data, variance_threshold=0.95, num_images=8):
     decompressed_images = [decompress_image(comp_img, eigen_vectors, img_mean) for comp_img in compressed_images[:num_images]]
     decompressed_images = np.array(decompressed_images).reshape(num_images, img_height, img_width)
 
+    # Display the shapes
+    original_shape = images[0].shape
+    compressed_shape = compressed_images[0].shape
+    decompressed_shape = decompressed_images[0].shape
+
     # Plot original and decompressed images
     plt.figure(figsize=(15, 10))
 
@@ -190,13 +205,13 @@ def eigen_faces(faces_data, variance_threshold=0.95, num_images=8):
         # Original images
         plt.subplot(2, num_images, i + 1)
         plt.imshow(images[i], cmap='gray')
-        plt.title(f'Original {i + 1}')
+        plt.title(f'Original {i + 1}\nShape: {original_shape}')
         plt.axis('off')
 
         # Decompressed images
         plt.subplot(2, num_images, i + num_images + 1)
         plt.imshow(decompressed_images[i], cmap='gray')
-        plt.title(f'Decompressed {i + 1}')
+        plt.title(f'Decompressed {i + 1}\nShape: {decompressed_shape}')
         plt.axis('off')
 
     plt.tight_layout()
@@ -210,7 +225,8 @@ def eigen_faces(faces_data, variance_threshold=0.95, num_images=8):
         eigenface = eigen_vectors[:, i].reshape(img_height, img_width)
         plt.subplot(4, 4, i + 1)
         plt.imshow(eigenface, cmap='gray')
-        plt.title(f'Eigenface {i + 1}')
+        plt.title(f'Eigenface {i + 1}\nShape: {eigenface.shape}')
+
         plt.axis('off')
 
     plt.tight_layout()
