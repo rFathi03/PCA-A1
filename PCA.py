@@ -38,7 +38,6 @@ def explained_variance(eigenvalues):
 
 def calculate_pc(cumulative_variance, variance_threshold):
     pc_num = np.argmax(cumulative_variance >= variance_threshold) + 1
-    print("the pc num", pc_num)
     return pc_num
 
 def project_data(centered_img, eigenvectors, pc_num):
@@ -63,7 +62,6 @@ def PCA(img, variance_threshold):
 
     # Select number of principal components based on threshold
     pc_num = calculate_pc(cumulative_variance, variance_threshold)
-    print("the pc num", pc_num)
 
     # Project data onto selected components
     compressed_image = project_data(centered_img, sorted_eigenvectors, pc_num)
@@ -134,7 +132,7 @@ def run_RGB():
     
     # Align the number of pc for all channels
     min_pc_num = min(pc_nums)
-    compressed_channels_aligned = handle_shape(*compressed_data, min_pc_num=min_pc_num)
+    compressed_channels_aligned = handle_shape(*compressed_data, min_pc_num)
     
     # Full compression for all channels
     compressed_full = [project_data(channels[i] - means[i], eigenvectors[i], min_pc_num) for i in range(3)]
