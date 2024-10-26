@@ -19,9 +19,10 @@ This repository demonstrates how to apply Principal Component Analysis (PCA) on 
 - Reconstruct the image using a reduced number of components.
   
 ### Results
-![Screenshot 2024-10-23 184856](https://github.com/user-attachments/assets/0aab74b2-abb6-4c15-8b1f-ffcdc1727ceb)
+![Screenshot 2024-10-26 213224](https://github.com/user-attachments/assets/50dcfee7-aad6-4897-9629-28480b2268b6)
 
-![Screenshot 2024-10-23 185056](https://github.com/user-attachments/assets/621158bc-605e-43b8-a9e5-d2383bda51cd)
+
+![Screenshot 2024-10-26 213424](https://github.com/user-attachments/assets/1574cf86-5837-4d66-8ebd-26bfd7691d24)
 
 ## Task 2: Apply PCA on an RGB Image
 ### Steps:
@@ -30,10 +31,11 @@ This repository demonstrates how to apply Principal Component Analysis (PCA) on 
 - Reconstruct the image by combining the reduced channels.
   
 ### Results
+![Screenshot 2024-10-26 213238](https://github.com/user-attachments/assets/c583fb20-222d-440a-aa2c-2903b0bf7710)
 
-![Screenshot 2024-10-23 185107](https://github.com/user-attachments/assets/24447deb-78d3-407a-8116-4423b1324ab4)
 
-![Screenshot 2024-10-23 184909](https://github.com/user-attachments/assets/91e87faa-7cd8-4206-84c3-411f73b3a2f3)
+![Screenshot 2024-10-26 213437](https://github.com/user-attachments/assets/93881339-2884-4029-8ec2-5b2aa470b51e)
+
 ## Task 3: Compress a Group of Images Using Common Features (Eigenfaces)
 ### Steps:
 - Convert each image in the group into a vector.
@@ -41,7 +43,7 @@ This repository demonstrates how to apply Principal Component Analysis (PCA) on 
 - Identify and visualize the principal components (eigenfaces) that capture the most variance.
 - Reconstruct into less number of images containing the common features using a combination of these eigenfaces.
 ### Results
-![Screenshot 2024-10-26 194904](https://github.com/user-attachments/assets/7535d345-8b80-451a-97ac-e608bb0b575d)
+![Screenshot 2024-10-26 213309](https://github.com/user-attachments/assets/d60c3c62-8675-4e6f-bd34-4d3226156891)
 
-![Screenshot 2024-10-26 194919](https://github.com/user-attachments/assets/852965e3-ddb4-4d26-8f75-f6295168a64a)
 
+![Screenshot 2024-10-26 213324](https://github.com/user-attachments/assets/878528c0-5fe7-407b-8d31-69b505805b0f)
