@@ -41,3 +41,7 @@ This repository demonstrates how to apply Principal Component Analysis (PCA) on 
 - Identify and visualize the principal components (eigenfaces) that capture the most variance.
 - Reconstruct into less number of images containing the common features using a combination of these eigenfaces.
 ### Results
+![Screenshot 2024-10-26 194904](https://github.com/user-attachments/assets/7535d345-8b80-451a-97ac-e608bb0b575d)
+
+![Screenshot 2024-10-26 194919](https://github.com/user-attachments/assets/852965e3-ddb4-4d26-8f75-f6295168a64a)
+
