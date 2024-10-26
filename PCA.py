@@ -1,15 +1,15 @@
-# GAN Assingment 1 
-# Name: Roaa Fathi
-# ID: 20210140
-
+# # GAN Assingment 1 
+# # Name: Roaa Fathi
+# # ID: 20210140
 
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt
+from sklearn.datasets import fetch_olivetti_faces
+from sklearn.utils import shuffle
 import os
 
-
-# ================================ PCA =====================================
+# # ================================ PCA =====================================
 
 def standardize(img):
     img_mean = np.mean(img, axis=0)
@@ -38,13 +38,14 @@ def explained_variance(eigenvalues):
 
 def calculate_pc(cumulative_variance, variance_threshold):
     pc_num = np.argmax(cumulative_variance >= variance_threshold) + 1
+    print("the pc num", pc_num)
     return pc_num
 
 def project_data(centered_img, eigenvectors, pc_num):
     compressed_image = np.dot(centered_img, eigenvectors[:, :pc_num])
     return compressed_image
 
-def PCA(img, variance_threshold=0.85):
+def PCA(img, variance_threshold):
     # Standardize the data
     centered_img, img_mean = standardize(img)
 
@@ -62,6 +63,7 @@ def PCA(img, variance_threshold=0.85):
 
     # Select number of principal components based on threshold
     pc_num = calculate_pc(cumulative_variance, variance_threshold)
+    print("the pc num", pc_num)
 
     # Project data onto selected components
     compressed_image = project_data(centered_img, sorted_eigenvectors, pc_num)
@@ -73,12 +75,11 @@ def decompress_image(compressed_img, eigenvectors, mean):
     decompressed_image = np.dot(compressed_img, eigenvectors.T) + mean
     return decompressed_image
 
-
-# ============================= Main Task ==================================
+# # ============================= Main Task ==================================
 
 def run_grayscale():
     # Load the Grayscale Image
-    image = cv2.imread('R:\Senior year\GAN\A1\Repo\PCA-A1\grayscale\eagleGS.jpg', cv2.IMREAD_GRAYSCALE)
+    image = cv2.imread('R:\Senior year\GAN\A1\Repo\PCA-A1\grayscale\lionGS.jpg', cv2.IMREAD_GRAYSCALE)
 
     # Visualize the compressed and decompressed images
     plt.figure(figsize=(10,5))
@@ -112,8 +113,6 @@ def run_grayscale():
 # ============================== Bonus 1 ===================================
 def handle_shape(*channels, min_pc_num):
     return [channel[:, :min_pc_num] for channel in channels]
-
-
 
 def run_RGB():
     # Load and convert image to RGB
@@ -169,16 +168,69 @@ def run_RGB():
 
     plt.show()
 
-
 # ============================== Bonus 2 ===================================
 
-def eigen_faces():
-    pass
+def eigen_faces(faces_data, variance_threshold=0.95, num_images=8):
+    # Shuffle the data
+    images, targets = shuffle(faces_data.images, faces_data.target, random_state=42)
+
+    # Reshape images to 2D (flattened)
+    img_height, img_width = images.shape[1], images.shape[2]
+    flattened_images = images.reshape(images.shape[0], -1)
+
+    # Apply PCA
+    compressed_images, eigen_vectors, img_mean, pc_num = PCA(flattened_images, variance_threshold)
+
+    # Decompress images
+    decompressed_images = [decompress_image(comp_img, eigen_vectors, img_mean) for comp_img in compressed_images[:num_images]]
+    decompressed_images = np.array(decompressed_images).reshape(num_images, img_height, img_width)
+
+    # Plot original and decompressed images
+    plt.figure(figsize=(15, 10))
+
+    for i in range(num_images):
+        # Original images
+        plt.subplot(2, num_images, i + 1)
+        plt.imshow(images[i], cmap='gray')
+        plt.title(f'Original {i + 1}')
+        plt.axis('off')
+
+        # Decompressed images
+        plt.subplot(2, num_images, i + num_images + 1)
+        plt.imshow(decompressed_images[i], cmap='gray')
+        plt.title(f'Decompressed {i + 1}')
+        plt.axis('off')
+
+    plt.tight_layout()
+    plt.show()
+
+    # Plot the eigenfaces 
+    plt.figure(figsize=(10, 10))
+    num_eigenfaces = min(pc_num, 16)  # Shows 16 eigenfaces
+
+    for i in range(num_eigenfaces):
+        eigenface = eigen_vectors[:, i].reshape(img_height, img_width)
+        plt.subplot(4, 4, i + 1)
+        plt.imshow(eigenface, cmap='gray')
+        plt.title(f'Eigenface {i + 1}')
+        plt.axis('off')
+
+    plt.tight_layout()
+    plt.show()
+    
+def run_eigen_faces():
+    # Fetch Olivetti faces dataset
+    faces_data = fetch_olivetti_faces()
+
+    eigen_faces(faces_data)
 
 # ============================== Main App ==================================
 def main_app():  
     run_grayscale()
     run_RGB()
-    eigen_faces()
+    run_eigen_faces()
+
 
 main_app()
+
+
